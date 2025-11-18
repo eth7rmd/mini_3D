@@ -25,6 +25,13 @@ void shader_program_bind(GLuint id)
     glUseProgram(id);
 }
 
+// TODO add functions hader_set_uniform_vec4_no_bind for performace reasons
+void shader_set_uniform_vec4(GLuint id, GLint loc, const float* data)
+{
+    glUseProgram(id);
+    glUniform4fv(loc, 1, data);
+}
+
 GLuint shader_get_uniform_block_index(GLuint id, const char* name)
 {
     GLuint index = glGetUniformBlockIndex(id, name);
@@ -49,6 +56,7 @@ void shader_initialize_texture_binding(GLuint id, const char* texture_name, int 
          assert(0 && "Name does not correspond to an active texture uniform variable!");
     }
     glUniform1i(loc, texture_unit_index);
+    //? Unbind the program here?
 }
 
 GLint shader_get_uniform_location(GLuint id, const char* name)

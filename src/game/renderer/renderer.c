@@ -10,6 +10,7 @@
 #include "camera.h"
 #include "shader.h"
 #include "misc/math_misc.h"
+#include "platform/platform_log.h"
 
 #define U_BLOCK_MATRICES_BINDING 1 // 0 is for gleter2d
 #define SSBO_LINES_BINDING 0 
@@ -257,8 +258,7 @@ int dg3d_uniform_buffer_create(DG3D_UniformBuffer* ubo, size_t size, GLuint bind
 
 void dg3d_uniform_buffer_update(DG3D_UniformBuffer* ubo, GLintptr offset, GLsizeiptr size, const void* data)
 {
-    assert((offset + size > ubo->max_size) && "SSBO OVERFLOW!");
-    if (offset + size > ubo->max_size) return;
+    assert(((size_t)(offset + size) <= ubo->max_size) && "UBO OVERFLOW!");
 
     glBindBuffer(GL_UNIFORM_BUFFER, ubo->handle);
     glBufferSubData(GL_UNIFORM_BUFFER, offset, size, data);
@@ -290,8 +290,7 @@ int dg3d_ssbo_create(DG3D_ShaderStorageBuffer* ssbo, GLsizeiptr size, GLuint bin
 
 void dg3d_ssbo_update(DG3D_ShaderStorageBuffer* ssbo, GLintptr offset, GLsizeiptr size, const void* data)
 {
-    assert((offset + size > ssbo->max_size) && "SSBO OVERFLOW!");
-    if (offset + size > ssbo->max_size) return;
+    assert(((size_t)(offset + size) <= ssbo->max_size) && "SSBO OVERFLOW!");
 
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, ssbo->handle);
     glBufferSubData(GL_SHADER_STORAGE_BUFFER, offset, size, data);

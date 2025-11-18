@@ -7,6 +7,8 @@
 #include "camera.h"
 #include "shader.h"
 
+typedef GLint uniform;
+
 ///////////////////
 // Unifrom Buffer
 typedef struct {
@@ -29,7 +31,7 @@ typedef struct {
     GLuint binding_point;
 } DG3D_ShaderStorageBuffer;
 
-int dg3d_ssbo_create(DG3D_ShaderStorageBuffer* ssbo, GLuint binding_point, GLenum usage);
+int dg3d_ssbo_create(DG3D_ShaderStorageBuffer* ssbo, GLsizeiptr size, GLuint binding_point, GLenum usage);
 void dg3d_ssbo_update(DG3D_ShaderStorageBuffer* ssbo, GLintptr offset, GLsizeiptr size, const void* data);
 void dg3d_ssbo_destroy(DG3D_ShaderStorageBuffer* ssbo);
 
@@ -37,7 +39,7 @@ void dg3d_ssbo_destroy(DG3D_ShaderStorageBuffer* ssbo);
 // Shaders
 typedef struct {
     GLuint      id;
-    GLint       u_model;
+    uniform       u_model;
 } DefaultShader;
 
 typedef struct {
@@ -46,6 +48,7 @@ typedef struct {
 
 typedef struct {
     GLuint id;
+    uniform color;  
 } LinesShader;
 
 /////////////
