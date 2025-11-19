@@ -4,10 +4,10 @@
 #include <linmath/linmath.h>
 
 typedef enum {
-    I,
-    II,
-    III,
-    IV
+    QUADRANT_I,
+    QUADRANT_II,
+    QUADRANT_III,
+    QUADRANT_IV
 } game_world_quadrant;
 
 void grid_3d_position_to_sector(const vec3 pos, unsigned int sector_size, vec2 out_sector);

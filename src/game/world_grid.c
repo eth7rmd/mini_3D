@@ -5,29 +5,18 @@
 
 #include <stdint.h>
 
-typedef enum {
-    QUADRANT_I,
-    QUADRANT_II,
-    QUADRANT_III,
-    QUADRANT_IV
-} game_world_quadrant;
-
 game_world_quadrant grid_3d_position_to_quadrant(vec3 pos)
 {
     float x_axis = pos[0];
-    float z_axis = pos[1];
-    game_world_quadrant result = QUADRANT_I;
+    float z_axis = pos[2];
     if (x_axis >= 0.0f) 
     {
-        if (z_axis >= 0.0f) result = QUADRANT_I;
-        else                result = QUADRANT_IV;
+        return (z_axis >= 0.0f) ? QUADRANT_I : QUADRANT_IV;
     }
     else 
     {
-        if (z_axis >= 0.0f) result = QUADRANT_II;
-        else                result = QUADRANT_III;
+        return (z_axis >= 0.0f) ? QUADRANT_II : QUADRANT_III;
     }
-    return result;
 }
 
 #if 0 
