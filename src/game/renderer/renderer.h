@@ -73,6 +73,8 @@ typedef struct {
 
     DG3D_UniformBuffer ubo_matrices;
 
+    DG3D_Mesh chunk_debug_lines;
+
     GLuint cube_vao;
     GLuint cube_vbo;
     GLuint cube_ebo;
