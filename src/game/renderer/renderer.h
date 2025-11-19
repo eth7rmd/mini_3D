@@ -39,7 +39,7 @@ void dg3d_ssbo_destroy(DG3D_ShaderStorageBuffer* ssbo);
 // Shaders
 typedef struct {
     GLuint      id;
-    uniform       u_model;
+    uniform     u_model;
 } DefaultShader;
 
 typedef struct {
@@ -47,8 +47,8 @@ typedef struct {
 } ScreenQuadShader;
 
 typedef struct {
-    GLuint id;
-    uniform color;  
+    GLuint  id;
+    uniform u_color;  
 } LinesShader;
 
 /////////////
@@ -57,6 +57,7 @@ typedef struct {
 
     DefaultShader    shader_default;
     ScreenQuadShader shader_screen_quad;
+    LinesShader      shader_lines;
 
     DG3D_UniformBuffer ubo_matrices;
 

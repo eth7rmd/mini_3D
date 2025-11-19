@@ -1,12 +1,11 @@
 #version 460 core
+layout (location = 0) in vec3 aPos;
 
-layout (std140, binding = 0) uniform uBlockMatrices {
-    mat4 view;
-    mat4 projection;
-};
-
-layout(std430, binding = 0) buffer LineBuffer {
-    vec4 line_points[];
-};
+out vec4 out_color;
 
 uniform vec4 u_color;
+
+void main() {
+    gl_Position = vec4(aPos, 1.0);
+    out_color = u_color;
+}

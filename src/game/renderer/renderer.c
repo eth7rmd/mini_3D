@@ -112,6 +112,15 @@ int dg3d_renderer_init(DG3D_Renderer* renderer, int width, int height)
         shader_program_delete(renderer->shader_default.id);
         return 1;
     }
+    //shader_initialize_ubo_binding(renderer->shader_lines.id, "uBlockMatrices", U_BLOCK_MATRICES_BINDING);
+
+    // lines shader
+    renderer->shader_lines.id = shader_program_compile_from_path("shaders/dg3d_lines.vert", "shaders/dg3d_lines.frag");
+    if (renderer->shader_lines.id == 0) {
+        return 1;
+    }
+    renderer->shader_lines.u_color = shader_get_uniform_location(renderer->shader_lines.id, "u_color");
+
 
     // UBO
     dg3d_uniform_buffer_create(&renderer->ubo_matrices, 2 * sizeof(mat4x4), U_BLOCK_MATRICES_BINDING, GL_STREAM_DRAW);
@@ -221,6 +230,7 @@ void dg3d_renderer_shutdown(DG3D_Renderer* renderer)
     // Shaders Cleanup.
     shader_program_delete(renderer->shader_default.id);
     shader_program_delete(renderer->shader_screen_quad.id);
+    shader_program_delete(renderer->shader_lines.id);
 
     // Ubo
     dg3d_uniform_buffer_destroy(&renderer->ubo_matrices);
