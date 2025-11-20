@@ -8,6 +8,8 @@
 #include "camera.h"
 #include "shader.h"
 
+//extern DG3D_Mesh chunk_debug_lines;
+
 typedef GLint uniform;
 
 ///////////////////
@@ -73,8 +75,6 @@ typedef struct {
 
     DG3D_UniformBuffer ubo_matrices;
 
-    DG3D_Mesh chunk_debug_lines;
-
     GLuint cube_vao;
     GLuint cube_vbo;
     GLuint cube_ebo;
@@ -95,7 +95,7 @@ typedef struct {
 int  dg3d_renderer_init(DG3D_Renderer* renderer, int width, int height);
 void dg3d_begin_frame(DG3D_Renderer* renderer, DG3D_Camera* camera);
 void dg3d_render_cube(DG3D_Renderer* renderer, mat4x4 model, GLuint texture);
-void dg3d_render_line(DG3D_Renderer* renderer, vec4 color, float* line_segments); // GLETER2D candidate?
+// void dg3d_render_line(DG3D_Renderer* renderer, vec4 color, float* line_segments); // GLETER2D candidate?
 void dg3d_renderer_shutdown(DG3D_Renderer* renderer);
 
 #endif

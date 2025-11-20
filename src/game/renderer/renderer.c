@@ -18,7 +18,7 @@
 
 
 // Cube with minimal data for displaying textures / using normals.
-static float dg3d_vertex_data[] = {
+static float cube_vertex_data[] = {
     
     // CUBE //////
     // Front face  TexCoords
@@ -54,7 +54,7 @@ static float dg3d_vertex_data[] = {
     //////////////
 };
 
-static unsigned short dg3d_index_data[] = {
+static unsigned short cube_index_data[] = {
 
     // CUBE //////
     // Front face
@@ -78,7 +78,7 @@ static unsigned short dg3d_index_data[] = {
     ////////////// 
 };
 
-static float dg3d_fullscreen_quad[] = {
+static float fullscreen_quad[] = {
   // Position // TexCoord (UV/ST)
    -1.,  1.,     .0,   1.,
    -1., -1.,     .0,  .0,
@@ -89,6 +89,16 @@ static float dg3d_fullscreen_quad[] = {
    -1.,  1.,     .0,   1.
   //////////////////////////////
 };
+
+static float lines_data[] = { 
+    0.0, 0.0, 0.0,
+    1.0, 0.0, 0.0,
+    1.0, 0.0, 1.0,
+    0.0, 0.0, 1.0,
+};
+
+DG3D_Mesh chunk_debug_lines; // ! GLOBAL
+
 
 /////////////
 // Renderer
@@ -127,6 +137,7 @@ int dg3d_renderer_init(DG3D_Renderer* renderer, int width, int height)
 
     // Lines VAO // ! TEST TEST TEST
 
+    //dg3d_mesh_create(chunk_debug_lines, 4, sizeof(lines_data), lines_data, GL_STATIC_DRAW);
 
 
     // ! END TEST END TEST
@@ -136,7 +147,7 @@ int dg3d_renderer_init(DG3D_Renderer* renderer, int width, int height)
     glGenBuffers(1, &renderer->screen_quad_vbo);
     glBindVertexArray(renderer->screen_quad_vao);
     glBindBuffer(GL_ARRAY_BUFFER, renderer->screen_quad_vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(dg3d_fullscreen_quad), dg3d_fullscreen_quad, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(fullscreen_quad), fullscreen_quad, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, (sizeof(float) * 4), (void*)0);
     glEnableVertexAttribArray(0);
     glBindVertexArray(0);
@@ -149,8 +160,8 @@ int dg3d_renderer_init(DG3D_Renderer* renderer, int width, int height)
     glBindVertexArray(renderer->cube_vao);
     glBindBuffer(GL_ARRAY_BUFFER, renderer->cube_vbo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer->cube_ebo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(dg3d_vertex_data), dg3d_vertex_data, GL_STATIC_DRAW);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(dg3d_index_data), dg3d_index_data, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(cube_vertex_data), cube_vertex_data, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(cube_index_data), cube_index_data, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (sizeof(float) * 5), (void*)0);
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, (sizeof(float) * 5), (void*)(sizeof(float) * 3));
     glEnableVertexAttribArray(0);             // This is the full stride  // This is offset in a stride
@@ -223,6 +234,16 @@ void dg3d_render_cube(DG3D_Renderer* renderer, mat4x4 model, GLuint texture)
     // 5 Unbind (can be skipped, but for safety and debugging)
     glBindVertexArray(0);
 }
+
+// void dg3d_render_mesh(DG3D_Renderer* renderer, DG3D_Mesh* mesh, vec4 color)
+// {
+//     shader_program_bind(renderer->shader_lines.id);
+//     shader_set_uniform_vec4(renderer->shader_lines.id, renderer->shader_lines.u_color, color);
+
+//     glBindVertexArray(mesh->vao);
+
+//     glDrawArrays(GL_LINES, )
+// }
 
 // void dg3d_render_line(DG3D_Renderer* renderer, vec4 color)
 // {
