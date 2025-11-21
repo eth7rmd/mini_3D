@@ -10,6 +10,7 @@
 
 #include "camera.h"
 #include "shader.h"
+#include "mesh_gen.h"
 #include "misc/math_misc.h"
 #include "platform/platform_log.h"
 
@@ -106,6 +107,22 @@ static float lines_data[] = {
 /////////////
 // Renderer
 
+static int load_meshes(DG3D_Renderer* renderer)
+{   
+    if (mesh_gen_create_debug_grid(&renderer->mesh_debug_chank)) {
+
+        return 1;
+    }
+
+    return 0;
+}
+
+static void unload_meshes(DG3D_Renderer* renderer)
+{
+    dg3d_mesh_destroy_debug_chunk(&renderer->mesh_debug_chank);
+}
+
+
 int dg3d_renderer_init(DG3D_Renderer* renderer, int width, int height)
 {   
     assert(renderer);
@@ -137,6 +154,10 @@ int dg3d_renderer_init(DG3D_Renderer* renderer, int width, int height)
 
     // UBO
     dg3d_uniform_buffer_create(&renderer->ubo_matrices, 2 * sizeof(mat4x4), U_BLOCK_MATRICES_BINDING, GL_STREAM_DRAW);
+
+    if (load_meshes(renderer)) {
+        return 1;
+    }
 
     // Screen Quad VAO
     glGenVertexArrays(1, &renderer->screen_quad_vao);
@@ -231,25 +252,18 @@ void dg3d_render_cube(DG3D_Renderer* renderer, mat4x4 model, GLuint texture)
     glBindVertexArray(0);
 }
 
-void dg3d_render_debug_lines(DG3D_Renderer* renderer, DG3D_Mesh* mesh, mat4x4 model, vec4 color)
+void dg3d_render_debug_chunk(DG3D_Renderer* renderer, mat4x4 model, vec4 color)
 {
     (void)model;
-}
 
-void dg3d_render_mesh(DG3D_Renderer* renderer, DG3D_Mesh* mesh, vec4 color)
-{
     shader_program_bind(renderer->shader_lines.id);
     shader_set_uniform_vec4(renderer->shader_lines.id, renderer->shader_lines.u_color, color);
 
-    glBindVertexArray(mesh->vao);
-    glDrawArrays(GL_LINES, 0, mesh->vertex_count);
+    glBindVertexArray(renderer->mesh_debug_chank.vao);
+    glDrawArrays(GL_LINES, 0, renderer->mesh_debug_chank.vertex_count);
     glBindVertexArray(0);
 }
 
-// void dg3d_render_line(DG3D_Renderer* renderer, vec4 color)
-// {
-
-// }
 
 void dg3d_renderer_shutdown(DG3D_Renderer* renderer)
 {
@@ -260,8 +274,11 @@ void dg3d_renderer_shutdown(DG3D_Renderer* renderer)
     shader_program_delete(renderer->shader_screen_quad.id);
     shader_program_delete(renderer->shader_lines.id);
 
-    // Ubo
+    // Ubo cleanup.
     dg3d_uniform_buffer_destroy(&renderer->ubo_matrices);
+
+    // Mesh clenup.
+    dg3d_mesh_destroy_debug_chunk(&renderer->mesh_debug_chank);
 
     // Screen quad cleanup.
     glDeleteVertexArrays(1, &renderer->screen_quad_vao);
@@ -276,34 +293,6 @@ void dg3d_renderer_shutdown(DG3D_Renderer* renderer)
     glDeleteFramebuffers(1, &renderer->fbo_main);
     glDeleteRenderbuffers(1, &renderer->fbo_main_renderbuffer);
     glDeleteTextures(1, &renderer->fbo_main);
-}
-
-/////////
-// MESH
-
-int dg3d_mesh_create(DG3D_Mesh* mesh, uint32_t vertex_count, GLsizeiptr buf_size, const void* data, GLenum usage)
-{
-    glGenVertexArrays(1, &mesh->vao);
-    glGenBuffers(1, &mesh->vbo);
-    glBindVertexArray(mesh->vao);
-    glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
-    glBufferData(GL_ARRAY_BUFFER, buf_size, data, usage);
-    // TODO some automation.
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (sizeof(float) * 3), (void*)0);
-    glEnableVertexAttribArray(0);
-    glBindVertexArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    mesh->vertex_count = vertex_count;
-    return 0;
-}
-
-void dg3d_mesh_destroy(DG3D_Mesh* mesh)
-{
-    if (!mesh) return;
-    glDeleteVertexArrays(1, &mesh->vao);
-    glDeleteBuffers(1, &mesh->vbo);
-    mesh->vertex_count = 0;   
 }
 
 ///////////////////

@@ -12,9 +12,10 @@
 #include "platform/platform_input.h"
 #include "platform/platform_other.h"
 #include "platform/platform_log.h"
-#include "renderer/camera.h"
 #include "renderer/renderer.h"
+#include "renderer/camera.h"
 #include "renderer/shader.h"
+#include "renderer/mesh_gen.h"
 #include "game/world_grid.h"
 #include "misc/math_misc.h"
 
@@ -34,11 +35,14 @@ typedef struct {
 } DG_Fonts;
 
 typedef struct {
-    DG_Fonts fonts;
-    GLE2D_Texture dirt_tex;
-    GLuint tess_shady;
+
     DG3D_Renderer renderer;
     DG3D_Camera camera;
+    GLE2D_Texture dirt_tex;
+    DG3D_Mesh mesh_debug_chank;
+    DG_Fonts fonts;
+
+    GLuint tess_shady;
     GLuint vao;
 } DG_GameContext;
 static DG_GameContext game_state = {0};
@@ -47,7 +51,6 @@ static DG_GameContext game_state = {0};
 
 int fb_w, fb_h;
 
-static int dg_load_meshes();
 
 int dg_init(void)
 {
@@ -186,6 +189,8 @@ int dg_loop(float dt)
     mat4x4_translate(model_7, 0.0f, 6.0f, -5.0f);
     mat4x4_translate(model_8, 0.0f, 0.0f, 0.0f);
 
+    
+
     camera_update(&game_state.camera, delta);
     gle2d_update_time_uniform(dt);
 
@@ -204,7 +209,9 @@ int dg_loop(float dt)
     dg3d_render_cube(&game_state.renderer, model_7, game_state.dirt_tex.id);
     dg3d_render_cube(&game_state.renderer, model_8, game_state.dirt_tex.id);
 
-
+    mat4x4 idntyty;
+    mat4x4_identity(idntyty);
+    dg3d_render_debug_chunk(&game_state.renderer, idntyty, TEXT_COLOR);
     //dg3d_render_mesh(&game_state.renderer, &chunk_debug_lines, TEXT_COLOR);
 
     // glClearBufferfv(GL_COLOR, 0, (GLfloat[]){0.0f, 0.0f, 0.0f, 1.0f});

@@ -17,7 +17,7 @@ int dg3d_mesh_create_chunk_debug(DG3D_Mesh* mesh,
     return 0;
 }
 
-void dg3d_mesh_destroy_chunk(DG3D_Mesh* mesh)
+void dg3d_mesh_destroy_debug_chunk(DG3D_Mesh* mesh)
 {
     if (!mesh) return;
     glDeleteVertexArrays(1, &mesh->vao);

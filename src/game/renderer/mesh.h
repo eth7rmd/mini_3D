@@ -14,7 +14,7 @@ typedef struct {
 int dg3d_mesh_create_chunk_debug(DG3D_Mesh* mesh, 
     uint32_t vertex_count, GLsizeiptr buf_size, const void* data, GLenum usage);
 
-void dg3d_mesh_destroy_chunk(DG3D_Mesh* mesh);
+void dg3d_mesh_destroy_debug_chunk(DG3D_Mesh* mesh);
 
 
 
