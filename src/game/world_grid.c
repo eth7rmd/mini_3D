@@ -25,6 +25,7 @@ game_world_quadrant grid_3d_position_to_quadrant(vec3 pos)
     }
 }
 
+#if 0 
 void generate_debug_chunk_vertices(float* data)
 {
     int idx = 0;
@@ -75,9 +76,6 @@ void generate_debug_chunk_vertices(float* data)
     }
 }
 
-
-
-#if 0 
 // TODO STUDY, DONT STEAL FROM CLAUDE WITHOUT UNDERSTANDING
 game_world_quadrant grid_3d_position_to_quadrant(vec3 pos) {
     // fastest possible assembly?

@@ -40,10 +40,14 @@ typedef struct {
     DG3D_Renderer renderer;
     DG3D_Camera camera;
     GLuint vao;
-} DG_GameState;
-static DG_GameState game_state = {0};
+} DG_GameContext;
+static DG_GameContext game_state = {0};
+
+
 
 int fb_w, fb_h;
+
+static int dg_load_meshes();
 
 int dg_init(void)
 {
@@ -201,7 +205,7 @@ int dg_loop(float dt)
     dg3d_render_cube(&game_state.renderer, model_8, game_state.dirt_tex.id);
 
 
-    dg3d_render_mesh(&game_state.renderer, &chunk_debug_lines, TEXT_COLOR);
+    //dg3d_render_mesh(&game_state.renderer, &chunk_debug_lines, TEXT_COLOR);
 
     // glClearBufferfv(GL_COLOR, 0, (GLfloat[]){0.0f, 0.0f, 0.0f, 1.0f});
     //gle2d_shapes_draw_quad(0, 0, fb_w, fb_h, 0.0f, GLE2D_COLOR_GREEN, 0);

@@ -101,9 +101,6 @@ static float lines_data[] = {
     0.0, 5.0, 5.0,
 };
 
-// ! GLOBAL AREA
-DG3D_Mesh chunk_debug_lines;
-DG3D_Mesh mesh_chunk_debug_grid;
 
 
 /////////////
@@ -140,13 +137,6 @@ int dg3d_renderer_init(DG3D_Renderer* renderer, int width, int height)
 
     // UBO
     dg3d_uniform_buffer_create(&renderer->ubo_matrices, 2 * sizeof(mat4x4), U_BLOCK_MATRICES_BINDING, GL_STREAM_DRAW);
-
-    // Lines VAO // ! TEST TEST TEST
-
-    dg3d_mesh_create(&chunk_debug_lines, 8, sizeof(lines_data), lines_data, GL_STATIC_DRAW);
-    
-
-    // ! END TEST END TEST
 
     // Screen Quad VAO
     glGenVertexArrays(1, &renderer->screen_quad_vao);
