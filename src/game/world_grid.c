@@ -29,9 +29,25 @@ game_world_quadrant grid_3d_position_to_quadrant(vec3 pos)
 
 int grid_3d_generate_debug_chunk_data(float* data)
 {
-    for (int i = 0; i < 10; i++) {
-        
+    int x = 0;
+    int y = 0;
+    int z = 0;
+
+    int counter = 0;
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 2; j++) {
+            chunk_grid_data[counter+0] = (float)x;
+            chunk_grid_data[counter+1] = (float)y;
+            chunk_grid_data[counter+2] = (float)z;
+            x += 8;
+            counter += 3; // 3 floats per vertex
+        }
+        x = 0;
+        z++;
     }
+
+
+    
 }
 
 
