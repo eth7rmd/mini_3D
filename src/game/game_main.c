@@ -169,8 +169,8 @@ int dg_loop(float dt)
     glGetAttribLocation(game_state.tess_shady, "color");
     glVertexAttrib2fv(0, attrib);
     glVertexAttrib4fv(1, color);
-
     
+
 
     mat4x4 model_1;
     mat4x4 model_2;
@@ -195,9 +195,10 @@ int dg_loop(float dt)
     gle2d_update_time_uniform(dt);
 
     // render.
+#if 0
     mathm_print_vec3(game_state.camera.pos);
     print_world_quadrant(grid_3d_position_to_quadrant(game_state.camera.pos));
-
+#endif
     dg3d_begin_frame(&game_state.renderer, &game_state.camera);
 
     dg3d_render_cube(&game_state.renderer, model_1, game_state.dirt_tex.id);
@@ -209,9 +210,13 @@ int dg_loop(float dt)
     dg3d_render_cube(&game_state.renderer, model_7, game_state.dirt_tex.id);
     dg3d_render_cube(&game_state.renderer, model_8, game_state.dirt_tex.id);
 
+
+    float r = ((float)sin(dt) + 1.0f) / 2;
+    float g = ((float)cos(dt) + 1.0f) / 2;
+
     mat4x4 idntyty;
     mat4x4_identity(idntyty);
-    dg3d_render_debug_chunk(&game_state.renderer, idntyty, TEXT_COLOR);
+    dg3d_render_debug_chunk(&game_state.renderer, idntyty, (vec4){r, g, 0.2f, 1.0f});
     //dg3d_render_mesh(&game_state.renderer, &chunk_debug_lines, TEXT_COLOR);
 
     // glClearBufferfv(GL_COLOR, 0, (GLfloat[]){0.0f, 0.0f, 0.0f, 1.0f});
