@@ -7,7 +7,7 @@
 // i love software. acies7 [Fri Nov 21 21:01:50].
 
 // precalculated XD
-float buffer_chunk_vertices[7398];
+static float buffer_chunk_vertices[7398];
 
 
 static void generate_debug_chunk_vertices(float* data)
@@ -66,7 +66,6 @@ int mesh_gen_create_debug_grid(DG3D_Mesh* mesh)
     if (!mesh) 
         return 1;
 
-    
     int vertex_count = 2466; // precalculated
     generate_debug_chunk_vertices(buffer_chunk_vertices);
     if (dg3d_mesh_create_chunk_debug(mesh, vertex_count, 
