@@ -219,10 +219,14 @@ int dg_loop(float dt)
     mat4x4 idntyty;
     mat4x4_identity(idntyty);
     dg3d_render_debug_chunk(&game_state.renderer, idntyty, (vec4){r, g, 0.2f, 1.0f});
-   
-    mat4x4 modo;
-    mat4x4_translate(modo, 0.0f, 6.0f, -5.0f);
-    dg3d_render_debug_chunk(&game_state.renderer, modo, (vec4){r, g, 0.2f, 1.0f});
+
+    for (int i = 0; i < 64*8; i+=8) {
+        mat4x4 m; 
+        mat4x4_translate(m, (float)i, (float)cos(dt), (float)sin(dt));
+        dg3d_render_debug_chunk(&game_state.renderer, m, (vec4){r, g, 0.2f, 1.0f});
+    }
+
+
     //dg3d_render_mesh(&game_state.renderer, &chunk_debug_lines, TEXT_COLOR);
 
     // glClearBufferfv(GL_COLOR, 0, (GLfloat[]){0.0f, 0.0f, 0.0f, 1.0f});
