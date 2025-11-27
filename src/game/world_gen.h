@@ -6,38 +6,56 @@
 #include "FastNoiseLite/FastNoiseLite.h"
 #include <stdint.h>
 
+typedef enum
+{
+    WGEN_DEFAULT = 0,
+    WGEN_CRAZY,
+    WGEN_COUNT,
+} WorldGenSettingsPredefined;
+
 typedef struct {
-
-    int                  seed;
-    float                freq;
-    int                  octaves;
-    float                lacunarity;
-    float                gain;
-    fnl_noise_type       noise_type;
-
-    //*CLAUDE was right!
-    // Keep internal/hardcoded:
-
-    // rotation_type_3d -    Users won't understand this, just set IMPROVE_XZ_PLANES
-    // fractal_type -        Pick FBM for terrain, users don't need to change
-    // weighted_strength -   Too technical, default is fine
-    // cellular_* settings - Only if you're using cellular noise for specific features
-    // domain_warp_* -       Advanced technique, hardcode if you use it
-    
+    float                frequency;         // Scale of terrain features
+    fnl_noise_type       noise_type;        // OpenSimplex2, Perlin, etc.
+    fnl_fractal_type     fractal_type;      // FBM for terrain
+    int                  octaves;           // Detail level (3-8 typical)
+    float                lacunarity;        // Frequency multiplier (2.0 default)
+    float                gain;              // Amplitude multiplier (0.5 default)
 } WorldGenSettings;
 
-typedef enum {
-    BLOCK_AIR = 0,
-    BLOCK_STONE,
-    BLOCK_TYPE_COUNT,
-} block_type;
-
-
-
 typedef struct {
-    uint8_t blocks[128][16][16];
-} Chunk;
+    int              seed;
+    WorldGenSettings settings;
+} WorldGenConfig;
 
-void chunk_create(Chunk* chunk);
+uint8_t chunk[CHUNK_X][CHUNK_Y][CHUNK_Z];
+
+#endif
+
+#if 0
+Quick tweaking guide:
+Frequency:
+
+0.005 = Huge mountains, slow rolling
+0.01 = Good default terrain
+0.02 = Hills and valleys
+0.05 = Small bumpy features
+
+Octaves:
+
+3 = Smooth, basic shapes
+5 = Nice detail (recommended)
+8 = Maximum detail (slower)
+
+Lacunarity:
+
+2.0 = Standard (each octave 2x frequency)
+2.5 = More contrast, rougher
+1.5 = Smoother transitions
+
+Gain:
+
+0.3 = Subtle details
+0.5 = Balanced (default)
+0.7 = Strong, pronounced details
 
 #endif
