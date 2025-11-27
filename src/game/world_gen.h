@@ -33,7 +33,6 @@ typedef enum {
 } block_type;
 
 
-uint8_t chunk[
 
 typedef struct {
     uint8_t blocks[128][16][16];

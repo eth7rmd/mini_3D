@@ -4,6 +4,7 @@
 #include "FastNoiseLite/FastNoiseLite.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <math.h>
 
@@ -51,11 +52,11 @@ static WorldGenSettings wgs = {
     .octaves =    6,
     .lacunarity = 2.0f,
     .gain =       0.5f,
-}
+};
 
 
 
-
+#if 0
 int main(void)
 {
     fnl_state noise = fnlCreateState(); 
@@ -125,6 +126,7 @@ int main(void)
 
     return 0;
 }
+#endif
 
 // // Generate random integer in range [min, max] (inclusive)
 // static inline int random_int(int min, int max) {
