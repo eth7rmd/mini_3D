@@ -18,6 +18,7 @@
 #include "renderer/mesh_gen.h"
 #include "game/world_grid.h"
 #include "misc/math_misc.h"
+#include "world_grid.h"
 
 #define TEXT_COLOR (vec4){0.0f, 0.5f, 0.5f, 1.0f}
 
@@ -97,38 +98,6 @@ int dg_init(void)
     return 0;
 }
 
-void print_world_quadrant(game_world_quadrant quadrant)
-{   
-    char * str;
-    switch (quadrant)
-    {
-    case QUADRANT_I:
-    {
-        str = "Q1";
-    } break;
-    case QUADRANT_II:
-    {
-        str = "Q2";
-    } break;
-    case QUADRANT_III:
-    {
-        str = "Q3";
-    } break;
-    case QUADRANT_IV:
-    {
-        str = "Q4";
-    } break;
-    default:
-    {   
-        str = "Q?";
-    } break;
-    }
-
-    fprintf(stdout, "SECTOR: %s\n", str);
-    fflush(stdout);
-
-}
-
 
 float delta = 0.01667;
 
@@ -195,12 +164,8 @@ int dg_loop(float dt)
 
 
     gle2d_update_time_uniform(dt);
-
+    
     // render.
-#if 0
-    mathm_print_vec3(game_state.camera.pos);
-    print_world_quadrant(grid_3d_position_to_quadrant(game_state.camera.pos));
-#endif
     dg3d_begin_frame(&game_state.renderer, &game_state.camera);
 
     dg3d_render_cube(&game_state.renderer, model_1, game_state.dirt_tex.id);

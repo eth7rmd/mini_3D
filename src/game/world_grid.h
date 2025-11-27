@@ -3,15 +3,16 @@
 
 #include <linmath/linmath.h>
 
-typedef enum {
-    QUADRANT_I,
-    QUADRANT_II,
-    QUADRANT_III,
-    QUADRANT_IV
-} game_world_quadrant;
+typedef int ivec2[2];
 
-void grid_3d_position_to_sector(const vec3 pos, unsigned int sector_size, vec2 out_sector);
-void generate_debug_chunk_vertices(float* data);
-game_world_quadrant grid_3d_position_to_quadrant(vec3 pos);
+enum
+{
+    CHUNK_X = 16,
+    CHUNK_Y = 256,
+    CHUNK_Z = 16,
+};
+
+void world_grid_pos_to_chunk_coordinate(vec3 pos, ivec2 chunk_coord);
+void world_grid_loop_over_chunk_relative_to_origin(ivec2 chunk_coord);
 
 #endif
