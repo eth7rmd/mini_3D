@@ -1,7 +1,8 @@
 #include "world_gen.h"
+#include "game/world_grid.h"
 
 #define FNL_IMPL 
-#include "FastNoiseLite/FastNoiseLite.h"
+#include <FastNoiseLite/FastNoiseLite.h>
 
 #include <stdint.h>
 
@@ -57,6 +58,10 @@ void world_gen_initialize_noise_gen(WorldGenConfig config)
 }
 void world_gen_chunk_at(ivec2 chunk_coord)
 {
+    static int height_mask[CHUNK_X*CHUNK_Y];
+    vec4 chunk_relatives; // CHUNK FAMILY[!]
+
+    
 
 }
 

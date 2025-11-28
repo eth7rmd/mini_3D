@@ -12,7 +12,7 @@ enum
     CHUNK_Z = 16,
 };
 
-void world_grid_pos_to_chunk_coordinate(vec3 pos, ivec2 chunk_coord);
-void world_grid_loop_over_chunk_relative_to_origin(ivec2 chunk_coord);
+void world_grid_pos_to_chunk_coordinate(vec3 pos, ivec2 chunk_coords);
+void world_grid_chunk_coords_to_grid_bounds_relative_to_origin(ivec2 chunk_coords, vec4 out_coords);
 
 #endif

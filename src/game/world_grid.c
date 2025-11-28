@@ -7,19 +7,24 @@
 #include <stdint.h>
 #include <stdio.h>
 
-void world_grid_pos_to_chunk_coordinate(vec3 pos, ivec2 chunk_coord)
+void world_grid_pos_to_chunk_coordinate(vec3 pos, ivec2 chunk_coords)
 {
-    chunk_coord[0] = floorf(pos[0] / CHUNK_X);
-    chunk_coord[1] = floorf(pos[2] / CHUNK_Z);
+    chunk_coords[0] = floorf(pos[0] / CHUNK_X);
+    chunk_coords[1] = floorf(pos[2] / CHUNK_Z);
 }
 
-void world_grid_loop_over_chunk_relative_to_origin(ivec2 chunk_coord)
+void world_grid_chunk_coords_to_grid_bounds_relative_to_origin(ivec2 chunk_coords, vec4 out_coords)
 {
-    int upper_x = (CHUNK_X * chunk_coord[0]) + CHUNK_X;
-    int upper_z = (CHUNK_Z * chunk_coord[1]) + CHUNK_Z;
+     // [local_x_start, local_z_start, upper_x, upper_z] 
+}
 
-    for (int local_z = CHUNK_Z * chunk_coord[1]; local_z < upper_z; local_z++) {
-        for (int local_x = CHUNK_X * chunk_coord[0]; local_x < upper_x; local_x++) {
+void world_grid_loop_over_chunk_relative_to_origin(ivec2 chunk_coords)
+{
+    int upper_x = (CHUNK_X * chunk_coords[0]) + CHUNK_X;
+    int upper_z = (CHUNK_Z * chunk_coords[1]) + CHUNK_Z;
+
+    for (int local_z = CHUNK_Z * chunk_coords[1]; local_z < upper_z; local_z++) {
+        for (int local_x = CHUNK_X * chunk_coords[0]; local_x < upper_x; local_x++) {
             printf("[%d, %d] ", local_z, local_x);
         }
         putchar('\n');
