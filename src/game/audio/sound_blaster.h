@@ -2,9 +2,17 @@
 #define DG_SOUND_BLASTER_H_
 
 #include <AL/al.h>
-
-#include <AL/al.h>
 #include <AL/alc.h>
+
+typedef struct {
+    ALCdevice* device;
+    ALCcontext* context;
+} SoundBlaster;
+
+int audio_sound_blaster_init(void);
+int audio_sound_blaster_shutdown(void);
+
+int audio_read_wav_file(const char* path);
 
 ///// Init
 // ALCdevice *device = alcOpenDevice(NULL);
@@ -24,9 +32,5 @@
 // alcMakeContextCurrent(NULL);
 // alcDestroyContext(ctx);
 // alcCloseDevice(device);
-
-
-
-
 
 #endif /*DG_SOUND_BLASTER_H_*/
