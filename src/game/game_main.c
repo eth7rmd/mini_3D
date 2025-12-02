@@ -22,6 +22,10 @@
 
 #define TEXT_COLOR (vec4){0.0f, 0.5f, 0.5f, 1.0f}
 
+char* g_wav_sounds[] = {
+    "res/example.wav",
+};
+
 #if 1
 // https://stackoverflow.com/questions/427477/fastest-way-to-clamp-a-real-fixed-floating-point-value
 static inline float clampf(float f, float min, float max) {
@@ -53,7 +57,6 @@ int fb_w, fb_h;
 
 int dg_init(void)
 {
-    platform_input_disable_cursor();
     platform_get_framebuffer_size(&fb_w, &fb_h);
 
     if (gle2d_init()) return 1;
@@ -64,10 +67,7 @@ int dg_init(void)
         return 1;
     }
 
-    vec3 pos = {0.0f, 0.0f, -5.0f};
-    vec3 target = {0.0f, 0.0f, 0.0f};
-    vec3 up = {0.0f, 1.0f, 0.0f};
-    camera_init(&game_state.camera, pos, target, up, mathm_deg_to_r(70), (float)fb_w, (float)fb_h, 0.1f, 100.f);
+    sound_blaster_init();
 
     game_state.tess_shady = shader_program_tess_compile_from_path("shaders/dungen.vert",
         "shaders/dungen.tcs", "shaders/dungen.tes", "shaders/dungen.frag");
@@ -90,13 +90,14 @@ int dg_init(void)
         return 1;
     }
     
-    audio_sound_blaster_init();
-
-
-    platform_log_info("w:%d, h:%d", fb_w, fb_h);
-
     glGenVertexArrays(1, &game_state.vao);
 
+
+    vec3 pos = {0.0f, 0.0f, -5.0f};
+    vec3 target = {0.0f, 0.0f, 0.0f};
+    vec3 up = {0.0f, 1.0f, 0.0f};
+    camera_init(&game_state.camera, pos, target, up, mathm_deg_to_r(70), (float)fb_w, (float)fb_h, 0.1f, 100.f);
+    platform_input_disable_cursor();
     world_gen_initialize_noise_gen(wgenconf);
 
     return 0;
@@ -239,6 +240,7 @@ void dg_close(void)
     glDeleteVertexArrays(1, &game_state.vao);
 
     dg3d_renderer_shutdown(&game_state.renderer);
+    sound_blaster_shutdown();
 
     gle2d_font_destroy(&game_state.fonts.default_font);
     gle2d_font_destroy(&game_state.fonts.extra_font);

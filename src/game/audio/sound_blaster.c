@@ -4,6 +4,9 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
+// NOTE: Only works on arrays, not pointers!
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof(arr[0]))
+
 static int internal_audio_openal_init(const char* device)
 {
     ALCdevice* Device;
@@ -31,16 +34,21 @@ static void internal_audio_openal_shutdown(void)
 }
 
 
-int audio_sound_blaster_init(void)
+int sound_blaster_init(void)
 {
     if (internal_audio_openal_init(NULL)) {
         return 1;
     }
 
-
-
     return 0;
 }
+
+void sound_blaster_shutdown(void)
+{
+    internal_audio_openal_shutdown();
+}
+
+
 
 
 
