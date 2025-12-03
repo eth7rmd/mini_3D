@@ -1,4 +1,5 @@
 #include "wave_file.h"
+#include "platform/file_read.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
