@@ -1,5 +1,6 @@
 #include "sound_blaster.h"
 #include "game/loaders/wave_file.h"
+#include <assert.h>
 #include <stdlib.h>
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -44,7 +45,28 @@ void sound_blaster_play_sound()
 
 void sound_blaster_load_wav(WAVFile* wave)
 {
- //   alBufferData(g_al_buffer, );
+    // Determine format
+    // For 8-bit mono: AL_FORMAT_MONO8
+    // For 16-bit mono: AL_FORMAT_MONO16
+    // For 8-bit stereo: AL_FORMAT_STEREO8
+    // For 16-bit stereo: AL_FORMAT_STEREO16
+    ALenum format;
+    if (wave->nChannels == 1 && wave->wBitsPerSample == 8)        
+        format = AL_FORMAT_MONO8;
+    else if (wave->nChannels == 1 && wave->wBitsPerSample == 16)
+        format = AL_FORMAT_MONO16;
+    else if (wave->nChannels == 2 && wave->wBitsPerSample == 8)
+        format = AL_FORMAT_STEREO8;
+    else if (wave->nChannels == 2 && wave->wBitsPerSample == 16)
+        format = AL_FORMAT_STEREO16;
+    else assert(0 && "[OPEN_AL] Format not supported.");
+
+    alBufferData(g_al_buffer, format, wave->data, wave->data_size, wave->nSamplesPerSec);
+    ALenum error;
+    if ((error = alGetError()) != AL_NO_ERROR) {
+        assert(0 && "[OPEN_AL] alBuffer data failed.");
+    }
+
 }
 
 

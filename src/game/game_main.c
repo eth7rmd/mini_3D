@@ -15,12 +15,18 @@
 #include "renderer/renderer.h"
 #include "renderer/camera.h"
 #include "renderer/shader.h"
+#include "game/loaders/wave_file.h"
 #include "game/audio/sound_blaster.h"
 #include "game/world_grid.h"
 #include "game/world_gen.h"
 #include "misc/math_misc.h"
 
 #define TEXT_COLOR (vec4){0.0f, 0.5f, 0.5f, 1.0f}
+
+typedef enum {
+    SOUND_EXAMPLE,
+    SOUND_COUNT
+} SoundID;
 
 char* g_wav_sounds[] = {
     "res/example.wav",
@@ -93,6 +99,11 @@ int dg_init(void)
     game_state.dirt_tex = gle2d_texture_load(path_3);
     if (game_state.dirt_tex.id == 0) {
         return 1;
+    }
+
+    WAVFile* example = {0};
+    for (int i = 0; i < (sizeof(g_wav_sounds) / sizeof(g_wav_sounds[0])); i++) {
+
     }
     
     glGenVertexArrays(1, &game_state.vao);
