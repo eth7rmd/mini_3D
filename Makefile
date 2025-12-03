@@ -47,9 +47,11 @@ generate_bin:
 	@mkdir -p bin/shaders
 	@mkdir -p bin/textures
 	@mkdir -p bin/fonts
+	@mkdir -p bin/sounds
 	@cp res/shaders/* bin/shaders/
 	@cp res/textures/* bin/textures/
 	@cp res/fonts/* bin/fonts/
+	@cp res/sounds/* bin/sounds
 
 clean:
 	@rm -rf bin

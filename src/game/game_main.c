@@ -23,15 +23,6 @@
 
 #define TEXT_COLOR (vec4){0.0f, 0.5f, 0.5f, 1.0f}
 
-typedef enum {
-    SOUND_EXAMPLE,
-    SOUND_COUNT
-} SoundID;
-
-char* g_wav_sounds[] = {
-    "res/example.wav",
-};
-
 #if 1
 // https://stackoverflow.com/questions/427477/fastest-way-to-clamp-a-real-fixed-floating-point-value
 static inline float clampf(float f, float min, float max) {
@@ -101,13 +92,8 @@ int dg_init(void)
         return 1;
     }
 
-    WAVFile* example = {0};
-    for (int i = 0; i < (sizeof(g_wav_sounds) / sizeof(g_wav_sounds[0])); i++) {
-
-    }
     
     glGenVertexArrays(1, &game_state.vao);
-
 
     vec3 pos = {0.0f, 0.0f, -5.0f};
     vec3 target = {0.0f, 0.0f, 0.0f};
@@ -138,6 +124,7 @@ int dg_loop(float dt)
     if (platform_is_key_pressed(KEY_C)) {
         double x, y;
         platform_input_get_cursor_pos(&x, &y);
+        sound_blaster_play_sound(SOUND_PUNCH);
         platform_log_info("[CURSOR] X:%f, Y:%f", x, y);
     }
 
